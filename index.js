@@ -9,18 +9,31 @@
  for you to use if you need it!
  */
 
- // features of employee
-const employeeMedet = ['medet', 'diler', 'developer', 200];
-const employeesArr = [['Medet', 'diler', 'developer', 200],['Loki', 'diler', 'developer', 200],['Ahmad', 'diler', 'developer', 200]];
+ // PLAYGROUND
+
+// let src = [
+//   ["Loki", "Laufeysson-Odinsson", "HR Representative", 35],
+//   ["Natalia", "Romanov", "CEO", 150]
+// ]
+// let employeeeees = createEmployeeRecords(src)
+// let loki = findEmployeeByFirstName(employeeeees, 'Loki')
+// console.log(loki.familyName)
+
+
+
+
+
+
+
+
+
+// create employee records
+function createEmployeeRecords(employees) {
+  return employees.map(item => createEmployeeRecord(item));
+}
 
 // create employee record
 function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
-  // this.firstNames  = firstName;
-  // this.familyNames = familyName;
-  // this.titles = title;
-  // this.payPerHours = payPerHour;
-  // this.timeInEvents = '';
-  // this.timeOutEvents = '';
   const employee = {
     firstName: firstName,
     familyName: familyName,
@@ -31,15 +44,6 @@ function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
   }
   return employee;
 }
-
-// create employee records
-function createEmployeeRecords(employees) {
-  return employees.map(item => createEmployeeRecord(item));
-}
-
-
-
-
 
 function createTimeInEvent(dateStamp){
   const [date, hour] = dateStamp.split(' ');
@@ -55,22 +59,25 @@ function createTimeInEvent(dateStamp){
 
 function createTimeOutEvent(dateStamp) {
   const [date, hour] = dateStamp.split(' ');
-  this.timeOutEvents.push({
+  const timeOutEvent = {
     type: 'TimeOut',
     date,
     hour: parseInt(hour)
-  });
+  };
+  this.timeOutEvents.push(timeOutEvent)
   return this;
 }
 
 
-function hoursWorkedOnDate(date) {
-  const timeInEvent = this.timeInEvents.find(event => event.date === date);
+
+function hoursWorkedOnDates(dates) {
+  console.log(this, 'this time in events')
+  const timeInEvent = this.timeInEvents.find(event => event.date === dates);
   if (!timeInEvent) {
     return 0;
   }
 
-  const timeOutEvent = this.timeOutEvents.find(event => event.date === date);
+  const timeOutEvent = this.timeOutEvents.find(event => event.date === dates);
   if (!timeOutEvent) {
     return 0;
   }
@@ -86,15 +93,21 @@ function wagesEarnedOnDate(date) {
   return wages;
 }
 
+const employee = createEmployeeRecord(['medet', 'diler', 'developer', 20])
+
+createTimeInEvent.call(employee, "2022-05-01")
+
+createTimeOutEvent.call(employee, "2022-05-01")
+
+
+
+
+
 
 function findEmployeeByFirstName(collection, firstNameString){
-  const findedEmployee = collection.map( employee => employee.find( fname => fname === firstNameString));
-  return findedEmployee;
+  const findedEmployee = collection.filter( employee => employee.firstName === firstNameString);
+  return findedEmployee[0];
 }
-
-
-
-console.log(findEmployeeByFirstName(employeesArr, 'Loki'))
 
 
 const allWagesFor = function () {
@@ -129,7 +142,7 @@ function calculatePayroll(employees) {
 //   payPerHour : 200,
 //   timeIn : [],
 //   info : function(){
-//     return console.log(`${this.firstName} ${this.familyName} ${this.title}`)
+    // return console.log(`${this.firstName} ${this.familyName} ${this.title}`)
 //   }
 // }
 
@@ -155,5 +168,5 @@ function calculatePayroll(employees) {
 // }
 
 
-// console.log(person.fullName.bind(member)())
+console.log(person.fullName.bind(member)())
 
