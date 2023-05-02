@@ -11,7 +11,7 @@
 
  // features of employee
 const employeeMedet = ['medet', 'diler', 'developer', 200];
-
+const employeesArr = [['Medet', 'diler', 'developer', 200],['Loki', 'diler', 'developer', 200],['Ahmad', 'diler', 'developer', 200]];
 
 // create employee record
 function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
@@ -39,35 +39,38 @@ function createEmployeeRecords(employees) {
 
 
 
-function createTimeInEvent(employeeRecord, dates) {
-  const [date, hour] = dates.split(' ');
-  const timeInEvent = {
+
+
+function createTimeInEvent(dateStamp){
+  const [date, hour] = dateStamp.split(' ');
+   const timeInEvent = {
     type: "TimeIn",
     date,
     hour: parseInt(hour),
   };
-  employeeRecord.timeInEvents.push(timeInEvent);
-  return employeeRecord;
+  this.timeInEvents.push(timeInEvent)
+  return this;
 }
 
-function createTimeOutEvent(employeeRecord, dates) {
-  const [date, hour] = dates.split(' ');
-  employeeRecord.timeOutEvents.push({
+
+function createTimeOutEvent(dateStamp) {
+  const [date, hour] = dateStamp.split(' ');
+  this.timeOutEvents.push({
     type: 'TimeOut',
     date,
     hour: parseInt(hour)
   });
-  return employeeRecord;
+  return this;
 }
 
 
-function hoursWorkedOnDate(employeeRecord, date) {
-  const timeInEvent = employeeRecord.timeInEvents.find(event => event.date === date);
+function hoursWorkedOnDate(date) {
+  const timeInEvent = this.timeInEvents.find(event => event.date === date);
   if (!timeInEvent) {
     return 0;
   }
 
-  const timeOutEvent = employeeRecord.timeOutEvents.find(event => event.date === date);
+  const timeOutEvent = this.timeOutEvents.find(event => event.date === date);
   if (!timeOutEvent) {
     return 0;
   }
@@ -76,34 +79,36 @@ function hoursWorkedOnDate(employeeRecord, date) {
   return hoursWorked;
 }
 
-function wagesEarnedOnDate(employeeRecord, date) {
-  const hoursWorked = hoursWorkedOnDate(employeeRecord, date);
-  const payRate = employeeRecord.payPerHour;
+function wagesEarnedOnDate(date) {
+  const hoursWorked = hoursWorkedOnDate(date);
+  const payRate = this.payPerHour;
   const wages = hoursWorked * payRate;
   return wages;
 }
 
-function allWagesFor(employeeRecord) {
-  const datesWorked = employeeRecord.timeInEvents.map(event => event.date);
 
-  const totalWages = datesWorked.reduce((acc, date) => {
-    return acc + wagesEarnedOnDate(employeeRecord, date);
-  }, 0);
-
-  return totalWages;
+function findEmployeeByFirstName(collection, firstNameString){
+  const findedEmployee = collection.map( employee => employee.find( fname => fname === firstNameString));
+  return findedEmployee;
 }
 
-// const allWagesFor = function () {
-//   const eligibleDates = this.timeInEvents.map(function (e) {
-//       return e.date
-//   })
 
-//   const payable = eligibleDates.reduce(function (memo, d) {
-//       return memo + wagesEarnedOnDate.call(this, d)
-//   }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
 
-//   return payable
-// }
+console.log(findEmployeeByFirstName(employeesArr, 'Loki'))
+
+
+const allWagesFor = function () {
+  const eligibleDates = this.timeInEvents.map(function (e) {
+      return e.date
+  })
+
+  const payable = eligibleDates.reduce(function (memo, d) {
+      return memo + wagesEarnedOnDate.call(this, d)
+  }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
+
+  return payable
+}
+
 
 
 function calculatePayroll(employees) {
@@ -115,4 +120,40 @@ function calculatePayroll(employees) {
 }
 
 
+// Practice area 
+
+// const trying = {
+//   firstName: 'medet',
+//   familyName : 'diler',
+//   title : 'developer',
+//   payPerHour : 200,
+//   timeIn : [],
+//   info : function(){
+//     return console.log(`${this.firstName} ${this.familyName} ${this.title}`)
+//   }
+// }
+
+// const secondTrying = {
+//   firstName: 'aybis',
+//   familyName : 'diler',
+//   title : 'interrior architect',
+// }
+
+
+
+// const person = {
+//   firstName:"John",
+//   lastName: "Doe",
+//   fullName: function () {
+//     return this.firstName + " " + this.lastName;
+//   }
+// }
+
+// const member = {
+//   firstName:"Hege",
+//   lastName: "Nilsen",
+// }
+
+
+// console.log(person.fullName.bind(member)())
 
