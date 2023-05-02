@@ -11,10 +11,10 @@
 
  // PLAYGROUND
 
-// let src = [
-//   ["Loki", "Laufeysson-Odinsson", "HR Representative", 35],
-//   ["Natalia", "Romanov", "CEO", 150]
-// ]
+let src = [
+  ["Loki", "Laufeysson-Odinsson", "HR Representative", 35],
+  ["Natalia", "Romanov", "CEO", 150]
+]
 // let employeeeees = createEmployeeRecords(src)
 // let loki = findEmployeeByFirstName(employeeeees, 'Loki')
 // console.log(loki.familyName)
@@ -31,6 +31,8 @@
 function createEmployeeRecords(employees) {
   return employees.map(item => createEmployeeRecord(item));
 }
+
+
 
 // create employee record
 function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
@@ -70,7 +72,7 @@ function createTimeOutEvent(dateStamp) {
 
 
 
-function hoursWorkedOnDates(dates) {
+function hoursWorkedOnDate(dates) {
   console.log(this, 'this time in events')
   const timeInEvent = this.timeInEvents.find(event => event.date === dates);
   if (!timeInEvent) {
@@ -87,7 +89,7 @@ function hoursWorkedOnDates(dates) {
 }
 
 function wagesEarnedOnDate(date) {
-  const hoursWorked = hoursWorkedOnDate(date);
+  const hoursWorked = hoursWorkedOnDate.bind(this)(date);
   const payRate = this.payPerHour;
   const wages = hoursWorked * payRate;
   return wages;
@@ -99,6 +101,7 @@ createTimeInEvent.call(employee, "2022-05-01")
 
 createTimeOutEvent.call(employee, "2022-05-01")
 
+wagesEarnedOnDate.call(employee, "2044-03-15")
 
 
 
@@ -123,11 +126,10 @@ const allWagesFor = function () {
 }
 
 
-
 function calculatePayroll(employees) {
   let payroll = 0;
   employees.forEach(employee => {
-    payroll += allWagesFor(employee);
+    payroll += allWagesFor.call(employee);
   });
   return payroll;
 }
@@ -168,5 +170,5 @@ function calculatePayroll(employees) {
 // }
 
 
-console.log(person.fullName.bind(member)())
+// console.log(person.fullName.bind(member)())
 
